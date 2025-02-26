@@ -1,0 +1,60 @@
+def main():
+    saldo = 0.0
+    extrato = []
+    limite_saque = 500.0
+    saques_realizados = 0
+    limite_saques_diarios = 3
+
+    while True:
+        print("\nMenu:")
+        print("1 - Depositar")
+        print("2 - Sacar")
+        print("3 - Extrato")
+        print("4 - Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == '1':
+            valor = float(input("Digite o valor para depositar: R$ "))
+            if valor > 0:
+                saldo += valor
+                extrato.append(f"Depósito: +R$ {valor:.2f}")
+                print(f"Depósito realizado! Saldo atual: R$ {saldo:.2f}")
+            else:
+                print("Valor inválido para depósito!")
+        
+        elif opcao == '2':
+            if saques_realizados >= limite_saques_diarios:
+                print("Limite diário de saques atingido!")
+            else:
+                valor = float(input("Digite o valor para sacar: R$ "))
+                if valor > saldo:
+                    print("Saldo insuficiente!")
+                elif valor > limite_saque:
+                    print("O limite máximo por saque é R$ 500.00!")
+                elif valor > 0:
+                    saldo -= valor
+                    extrato.append(f"Saque: -R$ {valor:.2f}")
+                    saques_realizados += 1
+                    print(f"Saque realizado! Saldo atual: R$ {saldo:.2f}")
+                else:
+                    print("Valor inválido para saque!")
+        
+        elif opcao == '3':
+            print("\nExtrato:")
+            if not extrato:
+                print("Nenhuma movimentação realizada.")
+            else:
+                for movimento in extrato:
+                    print(movimento)
+            print(f"Saldo atual: R$ {saldo:.2f}")
+        
+        elif opcao == '4':
+            print("Saindo do sistema. Até mais!")
+            break
+        
+        else:
+            print("Opção inválida! Tente novamente.")
+
+if __name__ == "__main__":
+    main()
