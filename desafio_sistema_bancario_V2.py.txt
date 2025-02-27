@@ -1,0 +1,72 @@
+import datetime
+
+def main():
+    saldo = 0.0
+    extrato = []
+    limite_saque = 500.0
+    saques_realizados = 0
+    limite_saques_diarios = 3
+    transacoes_realizadas = 0
+    limite_transacoes_diarias = 10
+
+    while True:
+        print("\nMenu:")
+        print("1 - Depositar")
+        print("2 - Sacar")
+        print("3 - Extrato")
+        print("4 - Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if transacoes_realizadas >= limite_transacoes_diarias:
+            print("Você excedeu o número máximo de 10 transações diárias!")
+            continue
+
+        if opcao == '1':
+            valor = float(input("Digite o valor para depositar: R$ "))
+            if valor > 0:
+                saldo += valor
+                data_hora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                extrato.append(f"{data_hora} - Depósito: +R$ {valor:.2f}")
+                transacoes_realizadas += 1
+                print(f"Depósito realizado! Saldo atual: R$ {saldo:.2f}")
+            else:
+                print("Valor inválido para depósito!")
+        
+        elif opcao == '2':
+            if saques_realizados >= limite_saques_diarios:
+                print("Limite diário de saques atingido!")
+            else:
+                valor = float(input("Digite o valor para sacar: R$ "))
+                if valor > saldo:
+                    print("Saldo insuficiente!")
+                elif valor > limite_saque:
+                    print("O limite máximo por saque é R$ 500.00!")
+                elif valor > 0:
+                    saldo -= valor
+                    data_hora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    extrato.append(f"{data_hora} - Saque: -R$ {valor:.2f}")
+                    saques_realizados += 1
+                    transacoes_realizadas += 1
+                    print(f"Saque realizado! Saldo atual: R$ {saldo:.2f}")
+                else:
+                    print("Valor inválido para saque!")
+        
+        elif opcao == '3':
+            print("\nExtrato:")
+            if not extrato:
+                print("Nenhuma movimentação realizada.")
+            else:
+                for movimento in extrato:
+                    print(movimento)
+            print(f"Saldo atual: R$ {saldo:.2f}")
+        
+        elif opcao == '4':
+            print("Saindo do sistema. Até mais!")
+            break
+        
+        else:
+            print("Opção inválida! Tente novamente.")
+
+if __name__ == "__main__":
+    main()
